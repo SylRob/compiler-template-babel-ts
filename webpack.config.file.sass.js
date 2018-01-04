@@ -16,7 +16,7 @@ const plugins = [];
 /**
  * Set environment settings
  */
-v;
+var devServ = {}
 switch (process.env.ENV_TYPE) {
 	case ENV_TYPE.DEV:
 		devServ = {
@@ -26,7 +26,7 @@ switch (process.env.ENV_TYPE) {
 			inline: true,
 			compress: true,
 			historyApiFallback: true
-		};
+		 }
 		break;
 	case ENV_TYPE.TST:
 		break;
@@ -35,6 +35,8 @@ switch (process.env.ENV_TYPE) {
 	case ENV_TYPE.PRO:
 		break;
 }
+
+
 
 /**
  * Set plugins
@@ -83,21 +85,56 @@ else {
 
 }
 
+
 module.exports = {
-	entry: ['./src/'],
+	entry: {
+		app: './src/index.js',
+		vendor: [
+	      'react',
+	      'react-dom'
+	    ]
+	},
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: 'js/bundle.min.js',
-		publicPath: '/'
+		filename: 'js/[name].js',
+		publicPath: "/"
 	},
 	resolve: {
-		extensions: ['.js', '.ts'],
+		extensions: ['.js', '.jsx', '.css'],
 	},
 	devtool: ENV != ENV_TYPE.DEV ? '' : 'eval-source-map',
+	devServer: devServ,
 	module: {
-		loaders: [{
-		  test: /\.ts$/, loaders: ['babel-loader', 'ts-loader'], exclude: /node_modules/
-		}]
+      loaders: [
+			{
+		        test: /\.jsx?$/,
+		        exclude: /node_modules/,
+		        loader: 'babel-loader',
+		        query: {
+		           presets: ['env', 'react']
+		        }
+    		},
+
+			// Css automatic loading
+			{
+				test: /\.css?$/,
+				loaders: ["style-loader", "css-loader", "resolve-url-loader"]
+			},
+
+			// Files
+			{
+				test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|eot|ttf)$/,
+				use: [
+		        	{
+		            	loader: 'file-loader',
+		            	options: {
+							outputPath: 'assets/',
+							name: '[name].[ext]'
+						}
+		        	}
+		    	]
+			}
+		]
 	},
 	plugins: plugins
 };
