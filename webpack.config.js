@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const DashboardPlugin = require("webpack-dashboard/plugin");
 
 const VERSION = process.env.npm_package_version;
 const CACHE = 'v'+VERSION;
@@ -16,7 +17,7 @@ const plugins = [];
 /**
  * Set environment settings
  */
-v;
+
 switch (process.env.ENV_TYPE) {
 	case ENV_TYPE.DEV:
 		devServ = {
@@ -79,6 +80,9 @@ else {
 
 	plugins.push(
 		new webpack.HotModuleReplacementPlugin()
+	)
+	plugins.push(
+		new DashboardPlugin()
 	)
 
 }

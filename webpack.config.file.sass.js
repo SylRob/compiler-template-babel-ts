@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const DashboardPlugin = require("webpack-dashboard/plugin");
 
 const VERSION = process.env.npm_package_version;
 const CACHE = 'v'+VERSION;
@@ -81,6 +82,9 @@ else {
 
 	plugins.push(
 		new webpack.HotModuleReplacementPlugin()
+	)
+	plugins.push(
+		new DashboardPlugin()
 	)
 
 }

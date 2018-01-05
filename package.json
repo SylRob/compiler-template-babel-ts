@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node run watch",
         "build": "NODE_ENV=production ENV_TYPE=production npm run rebuild",
-        "dev": "NODE_ENV=development ENV_TYPE=development webpack-dev-server --hot --inline --content-base dist/",
+        "dev": "NODE_ENV=development ENV_TYPE=development webpack-dashboard webpack-dev-server",
         "rebuild": "rimraf dist/js && mkdir dist/js && webpack",
         "clean": "rimraf dist/js",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,7 +22,8 @@
         "ts-loader": "latest",
         "typescript": "latest",
         "webpack": "latest",
-        "webpack-dev-server": "latest"
+        "webpack-dev-server": "latest",
+        "webpack-dashboard": "latest"
     },
     "dependencies": {
         "es6-promise": "latest"
