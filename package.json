@@ -1,5 +1,5 @@
 {
-    "name": "compiler template",
+    "name": "compiler_template",
     "version": "0.0.1",
     "description": "some webpack config exemple",
     "main": "dist/index.js",
