@@ -17,9 +17,11 @@ const plugins = [];
 /**
  * Set environment settings
  */
-
+ var mode = '';
+ var devServ = {};
 switch (process.env.ENV_TYPE) {
 	case ENV_TYPE.DEV:
+		mode = 'development';
 		devServ = {
 			hot: true,
 			port: 3001,
@@ -28,13 +30,14 @@ switch (process.env.ENV_TYPE) {
 			compress: true,
 			historyApiFallback: true
 		};
-		break;
+	break;
 	case ENV_TYPE.TST:
-		break;
+	break;
 	case ENV_TYPE.STG:
-		break;
+	break;
 	case ENV_TYPE.PRO:
-		break;
+		mode = 'production';
+	break;
 }
 
 /**
@@ -88,6 +91,7 @@ else {
 }
 
 module.exports = {
+	mode: mode,
 	entry: ['./src/'],
 	output: {
 		path: path.resolve(__dirname, "dist"),
@@ -99,9 +103,14 @@ module.exports = {
 	},
 	devtool: ENV != ENV_TYPE.DEV ? '' : 'eval-source-map',
 	module: {
-		loaders: [{
-		  test: /\.ts$/, loaders: ['babel-loader', 'ts-loader'], exclude: /node_modules/
-		}]
+		rules: [
+			test: /\.ts$/,
+			loaders: ['babel-loader', 'ts-loader'],
+			query: {
+				presets: ['env']
+			},
+			exclude: /node_modules/
+		]
 	},
 	plugins: plugins
 };
