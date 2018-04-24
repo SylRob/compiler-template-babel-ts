@@ -92,24 +92,33 @@ else {
 
 module.exports = {
 	mode: mode,
-	entry: ['./src/'],
+	entry: {
+			app: ['babel-polyfill', './src/index.ts']
+	},
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: 'js/bundle.min.js',
-		publicPath: '/'
+		filename: 'js/[name].min.js'
 	},
 	resolve: {
 		extensions: ['.js', '.ts'],
 	},
 	devtool: ENV != ENV_TYPE.DEV ? '' : 'eval-source-map',
+	devServer: devServ,
 	module: {
 		rules: [
-			test: /\.ts$/,
-			loaders: ['babel-loader', 'ts-loader'],
-			query: {
-				presets: ['env']
-			},
-			exclude: /node_modules/
+			{
+				test: /\.ts$/,
+				use: [
+					{
+						loader: 'babel-loader',
+						query: {
+							presets: ['env']
+						}
+					},
+					{ loader: 'ts-loader' }
+				],
+				exclude: /node_modules/
+			}
 		]
 	},
 	plugins: plugins
