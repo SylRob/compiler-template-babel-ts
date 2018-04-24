@@ -1,5 +1,5 @@
 {
-    "name": "compiler template",
+    "name": "compiler_template",
     "version": "0.0.1",
     "description": "some webpack config exemple",
     "main": "dist/index.js",
@@ -12,17 +12,21 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
+    "browserslist": [
+        "last 2 versions"
+    ],
     "license": "ISC",
     "devDependencies": {
         "@types/node": "latest",
         "babel-core": "latest",
         "babel-loader": "latest",
         "babel-polyfill": "latest",
-        "babel-preset-es2015": "latest",
+        "babel-preset-env": "latest",
         "ts-loader": "latest",
         "typescript": "latest",
         "webpack": "latest",
         "webpack-dev-server": "latest",
+        "webpack-cli": "latest",
         "webpack-dashboard": "latest"
     },
     "dependencies": {

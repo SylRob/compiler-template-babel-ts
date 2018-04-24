@@ -17,9 +17,11 @@ const plugins = [];
 /**
  * Set environment settings
  */
-
+ var mode = '';
+ var devServ = {};
 switch (process.env.ENV_TYPE) {
 	case ENV_TYPE.DEV:
+		mode = 'development';
 		devServ = {
 			hot: true,
 			port: 3001,
@@ -28,13 +30,14 @@ switch (process.env.ENV_TYPE) {
 			compress: true,
 			historyApiFallback: true
 		};
-		break;
+	break;
 	case ENV_TYPE.TST:
-		break;
+	break;
 	case ENV_TYPE.STG:
-		break;
+	break;
 	case ENV_TYPE.PRO:
-		break;
+		mode = 'production';
+	break;
 }
 
 /**
@@ -88,20 +91,35 @@ else {
 }
 
 module.exports = {
-	entry: ['./src/'],
+	mode: mode,
+	entry: {
+			app: ['babel-polyfill', './src/index.ts']
+	},
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: 'js/bundle.min.js',
-		publicPath: '/'
+		filename: 'js/[name].min.js'
 	},
 	resolve: {
 		extensions: ['.js', '.ts'],
 	},
 	devtool: ENV != ENV_TYPE.DEV ? '' : 'eval-source-map',
+	devServer: devServ,
 	module: {
-		loaders: [{
-		  test: /\.ts$/, loaders: ['babel-loader', 'ts-loader'], exclude: /node_modules/
-		}]
+		rules: [
+			{
+				test: /\.ts$/,
+				use: [
+					{
+						loader: 'babel-loader',
+						query: {
+							presets: ['env']
+						}
+					},
+					{ loader: 'ts-loader' }
+				],
+				exclude: /node_modules/
+			}
+		]
 	},
 	plugins: plugins
 };
